@@ -1,0 +1,92 @@
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container-fluid">
+    
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+        
+          <li class="nav-item" id="input1">
+            <a class="nav-link" (click) = "logOut()"><i class="fas fa-sign-out-alt"></i> logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <h3 class="text-center mb-3">List of category</h3>
+    <button class="btn btn-primary add" (click)="addCategory()"><span class="fas fa-plus-circle"></span> add new
+      category</button>
+
+    <div class="add-form" *ngIf="openForm">
+      <div class="group first-input">
+        <input name="currentName" [(ngModel)]="currentName" id="cName" class="modif" required />
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label class="modif-label">category name :</label>
+      </div>
+      <button class="btn btn-success" (click)="addNewCategory()">save</button>
+    </div>
+
+
+
+
+
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover" id="excel-table">
+        <thead>
+          <tr class="bg-dark text-white">
+            <th scope="col">Identifier</th>
+            <th scope="col">Name</th>
+            <th scope="col">Creation Date</th>
+            <th scope="col">Update Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of dataToBind">
+            <th scope="row" (click)="moveToProduct(data.id)">{{data.id}}</th>
+            <td>{{data.name }}</td>
+            <td>{{data.madeDate | date}}</td>
+            <td>{{data.updateDate | date}}</td>
+            <td>
+              <div>
+                <div class="fas fa-trash-alt garbage" (click)="removeCategory(data.id)"></div>
+                <div class="fas fa-edit action edit" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                  (click)="getCategoryDetail(data.id)"></div>
+              </div>
+            </td>
+            <!-- category modal to update some information-->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">update category </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="group first-input">
+                      <input name="currentName" id="cName" [(ngModel)]="currentName" class="modif" required />
+                      <span class="highlight"></span>
+                      <span class="bar"></span>
+                      <label class="modif-label">category name :</label>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="updateCtegory()">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- cat model end-->
+
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-primary"><span class="far fa-file-pdf"></span> export to pdf file</button>
+      <button class="btn btn-success custom-button " (click)="exportAsXLSX()"><span class="fas fa-file-csv"></span> export to excel file</button>
+    </div>
+  </div>
